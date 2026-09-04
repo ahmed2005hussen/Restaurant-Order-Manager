@@ -59,11 +59,9 @@ public class Order {
     }
 
     public void calculateTotal() {
-        total = 0.0;
-
-        for (OrderItem orderItem : items) {
-            total += orderItem.calculateSubtotal();
-        }
+        total = items.stream()
+                .mapToDouble(OrderItem::calculateSubtotal)
+                .sum();
     }
 
     public void updateStatus(OrderStatus status) {

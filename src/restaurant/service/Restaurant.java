@@ -17,11 +17,10 @@ public class Restaurant {
     private final LinkedHashMap<Integer, Order> completedOrders = new LinkedHashMap<>();
 
     public MenuItem findMenuItemById(int id) {
-        for (MenuItem item : menu) {
-            if (item.getId() == id)
-                return item;
-        }
-        return null;
+        return menu.stream()
+                .filter(item -> item.getId() == id)
+                .findFirst()
+                .orElse(null);
     }
 
     public boolean addMenuItem(MenuItem item) {
@@ -48,9 +47,7 @@ public class Restaurant {
         }
         System.out.println("\n Menu Items");
 
-        for (MenuItem item : menu) {
-            System.out.println(item);
-        }
+        menu.forEach(System.out::println);
     }
 
     public boolean createOrder(int id, String customer) {
@@ -159,9 +156,8 @@ public class Restaurant {
         }
         System.out.println("\nCompleted Orders");
 
-        for (Order order : completedOrders.values()) {
-            order.displayOrder();
-        }
+        completedOrders.values()
+                .forEach(Order::displayOrder);
     }
 
     public String cancelOrder(int orderId) {
